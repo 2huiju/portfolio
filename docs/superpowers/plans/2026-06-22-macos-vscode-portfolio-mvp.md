@@ -158,53 +158,19 @@ describe("content", () => {
 
 ---
 
-### Task 3: 디바이스 분기 훅 (데스크톱 vs 모바일)
+### Task 3: 반응형 분기 브레이크포인트 (Tailwind, JS 훅 X)
+
+JS `matchMedia` 훅으로 트리를 갈아끼우지 않는다(하이드레이션 깜빡임·불필요한 클라이언트 로직). **Tailwind 반응형 유틸리티로 CSS 분기**한다. 데스크톱 셸과 iOS 홈 양쪽이 SSR HTML에 렌더되고, 화면 폭에 따라 CSS로 하나만 보인다(깜빡임 없음 + 둘 다 SEO 노출). 트레이드오프: 양쪽 트리가 마운트됨(포폴 규모에선 허용; 무거워지면 데스크톱 쪽만 지연 처리).
 
 **Files:**
-- Create: `src/lib/useIsMobile.ts`
-- Test: `src/lib/useIsMobile.test.ts`
+- Modify: `src/app/globals.css` (`@theme`에 커스텀 브레이크포인트 추가)
 
 **Interfaces:**
-- Produces: `useIsMobile(breakpoint=820): boolean | null` — SSR 안전(초기 null), 마운트 후 `matchMedia`로 판정. null이면 아직 미정(레이아웃 시프트 방지용).
+- Produces: `desk:` Tailwind 변형(≥860px). 사용처(Task 9): `<div className="hidden desk:flex"><Desktop/></div>` + `<div className="desk:hidden"><IOSHome/></div>`.
 
-- [ ] **Step 1: 실패 테스트**
-```ts
-import { renderHook } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { useIsMobile } from "@/lib/useIsMobile";
-
-function mockWidth(w: number) {
-  window.matchMedia = vi.fn().mockImplementation((q: string) => ({
-    matches: w <= 820, media: q, addEventListener: vi.fn(), removeEventListener: vi.fn(),
-    addListener: vi.fn(), removeListener: vi.fn(), onchange: null, dispatchEvent: vi.fn(),
-  }));
-}
-describe("useIsMobile", () => {
-  beforeEach(() => mockWidth(390));
-  it("좁은 폭이면 true", () => {
-    const { result } = renderHook(() => useIsMobile());
-    expect(result.current).toBe(true);
-  });
-});
-```
-- [ ] **Step 2: 실패 확인** — Run: `npm test src/lib/useIsMobile.test.ts` Expected: FAIL(모듈 없음).
-- [ ] **Step 3: 구현**
-```ts
-"use client";
-import { useEffect, useState } from "react";
-export function useIsMobile(breakpoint = 820): boolean | null {
-  const [m, setM] = useState<boolean | null>(null);
-  useEffect(() => {
-    const mq = window.matchMedia(`(max-width:${breakpoint}px)`);
-    const on = () => setM(mq.matches);
-    on(); mq.addEventListener("change", on);
-    return () => mq.removeEventListener("change", on);
-  }, [breakpoint]);
-  return m;
-}
-```
-- [ ] **Step 4: 통과 확인** — Run: `npm test src/lib/useIsMobile.test.ts` Expected: PASS.
-- [ ] **Step 5: 커밋** — `git commit -am "데스크톱/모바일 분기 useIsMobile 훅"`
+- [ ] **Step 1: 브레이크포인트 선언** — `globals.css`의 `@theme inline`에 `--breakpoint-desk: 860px;` 추가.
+- [ ] **Step 2: 빌드 확인** — Run: `npm run build` Expected: 성공(`desk:` 변형 인식).
+- [ ] **Step 3: 커밋** — `git commit -am "Tailwind 커스텀 브레이크포인트로 반응형 분기"`
 
 ---
 
