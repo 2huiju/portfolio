@@ -12,6 +12,22 @@
   --font-mono: var(--font-geist-mono);
   /* 데스크톱 OS 셸 ↔ iOS 홈 분기 브레이크포인트 → `desk:` 변형 사용 */
   --breakpoint-desk: 860px;
+
+  /* VS Code 테마 팔레트 (Catppuccin Mocha) → bg-ctp-*, text-ctp-* */
+  --color-ctp-crust: #11111b;
+  --color-ctp-mantle: #181825;
+  --color-ctp-base: #1e1e2e;
+  --color-ctp-surface: #313244;
+  --color-ctp-overlay: #6c7086;
+  --color-ctp-subtext: #a6adc8;
+  --color-ctp-text: #cdd6f4;
+  --color-ctp-blue: #89b4fa;
+  --color-ctp-mauve: #cba6f7;
+  --color-ctp-green: #a6e3a1;
+  --color-ctp-peach: #fab387;
+  --color-ctp-red: #f38ba8;
+  --color-ctp-yellow: #f9e2af;
+  --color-ctp-teal: #94e2d5;
 }
 
 html,
@@ -31,6 +47,21 @@ body {
 /* 데스크톱 OS 셸은 페이지 스크롤을 막고 창 내부에서만 스크롤 */
 body.os-shell {
   overflow: hidden;
+}
+
+/* 코드 에디터 깜빡이는 캐럿 */
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+.caret {
+  display: inline-block;
+  width: 0.5rem;
+  height: 1.05rem;
+  vertical-align: text-bottom;
+  background: var(--color-ctp-text);
+  animation: caret-blink 1s steps(1) infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
