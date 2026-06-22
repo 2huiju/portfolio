@@ -111,7 +111,7 @@ export const profile: Profile = {
   years: 4,
   email: "heejoo45890@gmail.com",
   github: "https://github.com/2huiju",
-  phone: "[REDACTED]",
+  phone: process.env.NEXT_PUBLIC_PHONE ?? "", // 전화번호는 레포에 두지 않음(.env.local / Vercel 환경변수)
   intro: "기능 구현을 넘어 팀의 개발 환경과 구조를 설계하는 프론트엔드 개발자입니다.",
   stack: ["React", "Next.js", "TypeScript"],
 };
