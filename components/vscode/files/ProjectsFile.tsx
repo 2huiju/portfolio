@@ -9,7 +9,7 @@ function Pill({ children }: { children: React.ReactNode }) {
 
 function Row({ label, color, children }: { label: string; color: string; children: React.ReactNode }) {
   return (
-    <div className="flex gap-2 text-[13px] leading-relaxed">
+    <div className="flex items-start gap-2 text-[13px] leading-relaxed">
       <span className={`mt-0.5 shrink-0 rounded px-1.5 py-0.5 text-[10px] font-bold ${color}`}>{label}</span>
       <span className="text-ctp-subtext">{children}</span>
     </div>
@@ -72,7 +72,7 @@ export function ProjectsFile() {
           {/* 회고 */}
           {p.retrospective && (
             <div className="rounded-lg border border-ctp-surface bg-ctp-mantle/50 px-3 py-2.5 text-[12.5px] leading-relaxed text-ctp-subtext">
-              <span className="mr-1 font-semibold text-ctp-text">회고</span>
+              <div className="mb-1 font-semibold text-ctp-text">회고</div>
               {p.retrospective}
             </div>
           )}

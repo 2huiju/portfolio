@@ -61,7 +61,7 @@ export function Window({ title, z, onFocus, onClose, onMinimize, children }: Win
         maxWidth: "96vw",
         maxHeight: "calc(100vh - 9.5rem)",
       }}
-      className="absolute inset-x-0 top-14 mx-auto flex flex-col overflow-hidden rounded-xl border border-white/10 bg-ctp-base shadow-[0_30px_80px_rgba(0,0,0,0.55)]"
+      className="absolute inset-x-0 top-10 mx-auto flex flex-col overflow-hidden rounded-xl border border-white/10 bg-ctp-base shadow-[0_30px_80px_rgba(0,0,0,0.55)]"
     >
       {/* 타이틀바 (드래그 핸들) */}
       <div
