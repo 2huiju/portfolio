@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState, type PointerEvent as ReactPointerEvent, type ReactNode } from "react";
 import { motion, useDragControls } from "framer-motion";
 
 interface WindowProps {
@@ -12,9 +12,39 @@ interface WindowProps {
   children: ReactNode;
 }
 
+const MIN_W = 520;
+const MIN_H = 360;
+const DEFAULT_W = 880;
+const DEFAULT_H = 560;
+
+type Dir = "e" | "s" | "se";
+
 export function Window({ title, z, onFocus, onClose, onMinimize, children }: WindowProps) {
   const controls = useDragControls();
   const [maximized, setMaximized] = useState(false);
+  const [size, setSize] = useState({ w: DEFAULT_W, h: DEFAULT_H });
+
+  // 모서리/가장자리 드래그로 리사이즈
+  const startResize = (e: ReactPointerEvent, dir: Dir) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const startW = size.w;
+    const startH = size.h;
+    const move = (ev: globalThis.PointerEvent) => {
+      setSize({
+        w: dir.includes("e") ? Math.max(MIN_W, startW + (ev.clientX - startX)) : startW,
+        h: dir.includes("s") ? Math.max(MIN_H, startH + (ev.clientY - startY)) : startH,
+      });
+    };
+    const up = () => {
+      document.removeEventListener("pointermove", move);
+      document.removeEventListener("pointerup", up);
+    };
+    document.addEventListener("pointermove", move);
+    document.addEventListener("pointerup", up);
+  };
 
   return (
     <motion.div
@@ -25,8 +55,10 @@ export function Window({ title, z, onFocus, onClose, onMinimize, children }: Win
       onMouseDown={onFocus}
       style={{
         zIndex: z,
-        width: maximized ? "94vw" : "min(880px, 92vw)",
-        height: maximized ? "85vh" : "min(560px, 78vh)",
+        width: maximized ? "94vw" : size.w,
+        height: maximized ? "85vh" : size.h,
+        maxWidth: "96vw",
+        maxHeight: "88vh",
       }}
       className="absolute inset-x-0 top-14 mx-auto flex flex-col overflow-hidden rounded-xl border border-white/10 bg-ctp-base shadow-[0_30px_80px_rgba(0,0,0,0.55)]"
     >
@@ -36,10 +68,7 @@ export function Window({ title, z, onFocus, onClose, onMinimize, children }: Win
         onDoubleClick={() => setMaximized((m) => !m)}
         className="flex h-9 shrink-0 cursor-grab items-center gap-2 border-b border-black/40 bg-ctp-crust px-3 select-none active:cursor-grabbing"
       >
-        <div
-          className="group flex items-center gap-2"
-          onPointerDown={(e) => e.stopPropagation()}
-        >
+        <div className="group flex items-center gap-2" onPointerDown={(e) => e.stopPropagation()}>
           <button
             type="button"
             aria-label="닫기"
@@ -65,12 +94,28 @@ export function Window({ title, z, onFocus, onClose, onMinimize, children }: Win
             +
           </button>
         </div>
-        <span className="flex-1 pr-12 text-center text-xs font-medium text-ctp-subtext">
-          {title}
-        </span>
+        <span className="flex-1 pr-12 text-center text-xs font-medium text-ctp-subtext">{title}</span>
       </div>
 
       <div className="min-h-0 flex-1">{children}</div>
+
+      {/* 리사이즈 핸들 (최대화 시 숨김) */}
+      {!maximized && (
+        <>
+          <div
+            onPointerDown={(e) => startResize(e, "e")}
+            className="absolute top-9 right-0 bottom-3 w-1.5 cursor-ew-resize"
+          />
+          <div
+            onPointerDown={(e) => startResize(e, "s")}
+            className="absolute bottom-0 left-0 h-1.5 w-full cursor-ns-resize"
+          />
+          <div
+            onPointerDown={(e) => startResize(e, "se")}
+            className="absolute right-0 bottom-0 h-3.5 w-3.5 cursor-nwse-resize"
+          />
+        </>
+      )}
     </motion.div>
   );
 }

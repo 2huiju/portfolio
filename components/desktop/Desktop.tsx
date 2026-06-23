@@ -1,8 +1,10 @@
 "use client";
 
 import { useWindows } from "@/store/windows";
+import { useVscode } from "@/store/vscode";
 import { MenuBar } from "./MenuBar";
 import { Dock } from "./Dock";
+import { DOCK_APPS } from "./dockApps";
 import { Window } from "./Window";
 import { VSCodeApp } from "@/components/vscode/VSCodeApp";
 
@@ -23,6 +25,14 @@ export function Desktop() {
   const closeApp = useWindows((s) => s.closeApp);
   const minimize = useWindows((s) => s.minimize);
   const focusApp = useWindows((s) => s.focusApp);
+  const openFile = useVscode((s) => s.openFile);
+
+  // 독 클릭: VS Code 창을 열고(복원·포커스), 해당 파일로 이동
+  const handleDockOpen = (id: string) => {
+    const app = DOCK_APPS.find((a) => a.id === id);
+    openApp("vscode");
+    if (app?.file) openFile(app.file);
+  };
 
   const vscodeVisible = open.vscode && !open.vscode.minimized;
 
@@ -32,7 +42,7 @@ export function Desktop() {
 
       {vscodeVisible && (
         <Window
-          title="home.tsx — heejoo.dev"
+          title="home.tsx — huiju.dev"
           z={z.vscode ?? 1}
           onFocus={() => focusApp("vscode")}
           onClose={() => closeApp("vscode")}
@@ -42,7 +52,7 @@ export function Desktop() {
         </Window>
       )}
 
-      <Dock onOpen={openApp} runningIds={Object.keys(open)} />
+      <Dock onOpen={handleDockOpen} runningIds={Object.keys(open)} />
     </div>
   );
 }

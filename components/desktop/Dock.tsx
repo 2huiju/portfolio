@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { Icon } from "@iconify/react";
 import {
   motion,
@@ -21,12 +22,11 @@ const SPRING = { mass: 0.2, stiffness: 240, damping: 18 } as const;
 interface DockProps {
   onOpen: (id: string) => void;
   runningIds?: string[];
-  reduceMotion?: boolean;
 }
 
-export function Dock({ onOpen, runningIds = [], reduceMotion }: DockProps) {
+export function Dock({ onOpen, runningIds = [] }: DockProps) {
   const prefersReduced = useReducedMotion();
-  const isStatic = reduceMotion ?? prefersReduced ?? false;
+  const isStatic = prefersReduced ?? false;
   const mouseX = useMotionValue<number>(Infinity);
 
   return (
@@ -34,7 +34,7 @@ export function Dock({ onOpen, runningIds = [], reduceMotion }: DockProps) {
       aria-label="독"
       onMouseMove={(e) => mouseX.set(e.pageX)}
       onMouseLeave={() => mouseX.set(Infinity)}
-      className="fixed bottom-2 left-1/2 z-40 flex -translate-x-1/2 items-end gap-2 rounded-[22px] border border-white/30 bg-white/15 px-2.5 py-2 shadow-[0_12px_40px_rgba(0,0,0,0.4)] backdrop-blur-2xl"
+      className="fixed bottom-2 left-1/2 z-40 flex -translate-x-1/2 items-end gap-2.5 rounded-[22px] border border-white/25 bg-white/15 px-2.5 py-2 shadow-[0_12px_40px_rgba(0,0,0,0.4)] backdrop-blur-2xl"
     >
       {DOCK_APPS.map((app) => (
         <DockItem
@@ -61,17 +61,12 @@ interface DockItemProps {
 function DockItem({ app, mouseX, isStatic, running, onOpen }: DockItemProps) {
   const ref = useRef<HTMLButtonElement>(null);
 
-  // 커서와 아이콘 중심의 거리 → 크기 보간
   const distance = useTransform(mouseX, (x) => {
     const rect = ref.current?.getBoundingClientRect();
     if (!rect) return INFLUENCE;
     return x - (rect.x + rect.width / 2);
   });
-  const sizeTarget = useTransform(
-    distance,
-    [-INFLUENCE, 0, INFLUENCE],
-    [BASE_SIZE, MAX_SIZE, BASE_SIZE],
-  );
+  const sizeTarget = useTransform(distance, [-INFLUENCE, 0, INFLUENCE], [BASE_SIZE, MAX_SIZE, BASE_SIZE]);
   const size = useSpring(sizeTarget, SPRING);
 
   return (
@@ -83,21 +78,23 @@ function DockItem({ app, mouseX, isStatic, running, onOpen }: DockItemProps) {
       onClick={() => app.enabled && onOpen(app.id)}
       className="group relative flex flex-col items-center"
     >
-      {/* 툴팁 */}
       <span className="pointer-events-none absolute -top-9 whitespace-nowrap rounded-md bg-black/75 px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100">
         {app.label}
       </span>
 
       <motion.span
         style={isStatic ? { width: BASE_SIZE, height: BASE_SIZE } : { width: size, height: size }}
-        className={`flex items-center justify-center rounded-[22%] shadow-[0_4px_10px_rgba(0,0,0,0.25)] ${app.tile} ${
-          app.enabled ? "" : "opacity-90"
-        }`}
+        className={`relative block ${app.enabled ? "" : "opacity-80 grayscale"}`}
       >
-        <Icon icon={app.icon} className="h-[62%] w-[62%]" aria-hidden />
+        {app.img ? (
+          <Image src={app.img} alt={app.label} fill sizes="74px" className="object-contain drop-shadow-[0_3px_6px_rgba(0,0,0,0.35)]" />
+        ) : (
+          <span className={`flex h-full w-full items-center justify-center rounded-[22%] shadow-[0_4px_10px_rgba(0,0,0,0.25)] ${app.tile ?? ""}`}>
+            <Icon icon={app.icon ?? ""} className="h-[64%] w-[64%]" aria-hidden />
+          </span>
+        )}
       </motion.span>
 
-      {/* 실행중 인디케이터 */}
       <span
         className={`mt-1 h-1 w-1 rounded-full bg-white/80 ${running ? "opacity-100" : "opacity-0"}`}
         aria-hidden

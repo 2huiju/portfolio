@@ -12,7 +12,7 @@ const LINES: ReactNode[] = [
   <C key="c">{"// 안녕하세요 👋 이희주의 포트폴리오입니다."}</C>,
   <>{NBSP}</>,
   <>
-    <K>const</K> <V>heejoo</V> = {"{"}
+    <K>const</K> <V>huiju</V> = {"{"}
   </>,
   <>
     {indent(2)}
@@ -41,7 +41,7 @@ const LINES: ReactNode[] = [
   </>,
   <>
     {indent(2)}
-    <K>return</K> <P>&lt;Portfolio</P> <V>dev</V>={"{heejoo}"} <P>/&gt;</P>;
+    <K>return</K> <P>&lt;Portfolio</P> <V>dev</V>={"{huiju}"} <P>/&gt;</P>;
   </>,
   <>{"}"}</>,
 ];

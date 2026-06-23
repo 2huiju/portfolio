@@ -14,7 +14,7 @@ export function Explorer({ activeId, onOpen }: ExplorerProps) {
       </div>
       <div className="flex items-center gap-1 px-3 py-1 font-semibold text-ctp-text">
         <Icon icon="codicon:chevron-down" className="text-xs" aria-hidden />
-        HEEJOO.DEV
+        HUIJU.DEV
       </div>
       <ul>
         {FILES.map((f) => (
