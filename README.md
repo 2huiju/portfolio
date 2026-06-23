@@ -72,5 +72,6 @@ NEXT_PUBLIC_PHONE=   # 선택. 설정 시 Contact에 노출(클라이언트 공�
 ## 📮 Contact
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-huiju.vercel.app-8B5CF6?style=for-the-badge&logo=vercel&logoColor=white)](https://huiju.vercel.app)
-[![GitHub](https://img.shields.io/badge/GitHub-2huiju-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/2huiju)
-[![Email](https://img.shields.io/badge/Email-heejoo45890@gmail.com-6B7280?style=for-the-badge&logo=gmail&logoColor=white)](mailto:heejoo45890@gmail.com)
+
+- GitHub — [@2huiju](https://github.com/2huiju)
+- Email — heejoo45890@gmail.com
