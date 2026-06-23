@@ -15,7 +15,7 @@ interface WindowProps {
 const MIN_W = 520;
 const MIN_H = 360;
 const DEFAULT_W = 1080;
-const DEFAULT_H = 680;
+const DEFAULT_H = 640;
 
 type Dir = "e" | "s" | "se";
 
@@ -56,9 +56,10 @@ export function Window({ title, z, onFocus, onClose, onMinimize, children }: Win
       style={{
         zIndex: z,
         width: maximized ? "94vw" : size.w,
-        height: maximized ? "85vh" : size.h,
+        // 상단 메뉴바/오프셋 + 하단 독 공간을 빼서 독과 겹치지 않게 제한
+        height: maximized ? "calc(100vh - 9.5rem)" : size.h,
         maxWidth: "96vw",
-        maxHeight: "88vh",
+        maxHeight: "calc(100vh - 9.5rem)",
       }}
       className="absolute inset-x-0 top-14 mx-auto flex flex-col overflow-hidden rounded-xl border border-white/10 bg-ctp-base shadow-[0_30px_80px_rgba(0,0,0,0.55)]"
     >
