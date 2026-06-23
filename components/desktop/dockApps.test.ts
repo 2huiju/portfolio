@@ -2,8 +2,9 @@ import { describe, it, expect } from "vitest";
 import { DOCK_APPS } from "@/components/desktop/dockApps";
 
 describe("dockApps", () => {
-  it("앱 7개 정의", () => {
+  it("앱 7개 정의(전부 실제 macOS 아이콘)", () => {
     expect(DOCK_APPS.length).toBe(7);
+    for (const a of DOCK_APPS) expect(a.img).toMatch(/^\/icons\//);
   });
 
   it("VS Code는 활성이고 home 파일과 연결", () => {

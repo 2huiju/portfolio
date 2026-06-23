@@ -2,15 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { Icon } from "@iconify/react";
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-  useReducedMotion,
-  type MotionValue,
-} from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, type MotionValue } from "framer-motion";
 import { DOCK_APPS, type DockApp } from "./dockApps";
 
 // 아이콘 기본/최대 크기와 매그니피케이션 반경(px)
@@ -25,8 +17,6 @@ interface DockProps {
 }
 
 export function Dock({ onOpen, runningIds = [] }: DockProps) {
-  const prefersReduced = useReducedMotion();
-  const isStatic = prefersReduced ?? false;
   const mouseX = useMotionValue<number>(Infinity);
 
   return (
@@ -41,7 +31,6 @@ export function Dock({ onOpen, runningIds = [] }: DockProps) {
           key={app.id}
           app={app}
           mouseX={mouseX}
-          isStatic={isStatic}
           running={runningIds.includes(app.id)}
           onOpen={onOpen}
         />
@@ -53,14 +42,14 @@ export function Dock({ onOpen, runningIds = [] }: DockProps) {
 interface DockItemProps {
   app: DockApp;
   mouseX: MotionValue<number>;
-  isStatic: boolean;
   running: boolean;
   onOpen: (id: string) => void;
 }
 
-function DockItem({ app, mouseX, isStatic, running, onOpen }: DockItemProps) {
+function DockItem({ app, mouseX, running, onOpen }: DockItemProps) {
   const ref = useRef<HTMLButtonElement>(null);
 
+  // 커서와 아이콘 중심의 거리 → 크기 보간. (미세한 호버 효과라 reduce-motion에서도 유지)
   const distance = useTransform(mouseX, (x) => {
     const rect = ref.current?.getBoundingClientRect();
     if (!rect) return INFLUENCE;
@@ -83,16 +72,16 @@ function DockItem({ app, mouseX, isStatic, running, onOpen }: DockItemProps) {
       </span>
 
       <motion.span
-        style={isStatic ? { width: BASE_SIZE, height: BASE_SIZE } : { width: size, height: size }}
+        style={{ width: size, height: size }}
         className={`relative block ${app.enabled ? "" : "opacity-80 grayscale"}`}
       >
-        {app.img ? (
-          <Image src={app.img} alt={app.label} fill sizes="74px" className="object-contain drop-shadow-[0_3px_6px_rgba(0,0,0,0.35)]" />
-        ) : (
-          <span className={`flex h-full w-full items-center justify-center rounded-[22%] shadow-[0_4px_10px_rgba(0,0,0,0.25)] ${app.tile ?? ""}`}>
-            <Icon icon={app.icon ?? ""} className="h-[64%] w-[64%]" aria-hidden />
-          </span>
-        )}
+        <Image
+          src={app.img}
+          alt={app.label}
+          fill
+          sizes="74px"
+          className="object-contain drop-shadow-[0_3px_6px_rgba(0,0,0,0.35)]"
+        />
       </motion.span>
 
       <span
