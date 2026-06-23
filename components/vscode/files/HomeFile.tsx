@@ -32,7 +32,7 @@ const LINES: ReactNode[] = [
   </>,
   <>
     {indent(2)}
-    <P>focus</P>: <S>&quot;기능을 넘어 팀의 개발 환경까지 설계&quot;</S>,
+    <P>focus</P>: <S>&quot;사용자의 문제를 정의하고 끝까지 해결&quot;</S>,
   </>,
   <>{"};"}</>,
   <>{NBSP}</>,
