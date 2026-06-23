@@ -1,6 +1,16 @@
 import { Desktop } from "@/components/desktop/Desktop";
+import { IOSHome } from "@/components/ios/IOSHome";
 
-// MVP: 데스크톱 셸. 모바일(iOS 홈) 반응형 분기는 Task 9에서 추가.
+// 데스크톱(≥860px)은 macOS 셸, 모바일은 iOS 홈. CSS 브레이크포인트로 분기(JS 없음).
 export default function Page() {
-  return <Desktop />;
+  return (
+    <>
+      <div className="hidden desk:block">
+        <Desktop />
+      </div>
+      <div className="desk:hidden">
+        <IOSHome />
+      </div>
+    </>
+  );
 }

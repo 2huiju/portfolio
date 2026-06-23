@@ -14,8 +14,8 @@ interface WindowProps {
 
 const MIN_W = 520;
 const MIN_H = 360;
-const DEFAULT_W = 880;
-const DEFAULT_H = 560;
+const DEFAULT_W = 1080;
+const DEFAULT_H = 680;
 
 type Dir = "e" | "s" | "se";
 
