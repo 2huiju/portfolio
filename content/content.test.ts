@@ -12,12 +12,13 @@ describe("content", () => {
     expect(profile.github).toContain("github.com/2huiju");
   });
 
-  it("프로젝트 5개 + 필수 필드", () => {
-    expect(projects.length).toBe(5);
+  it("프로젝트 4개 + 필수 필드", () => {
+    expect(projects.length).toBe(4);
     for (const p of projects) {
       expect(p.name).toBeTruthy();
       expect(Array.isArray(p.stack)).toBe(true);
       expect(["운영", "종료"]).toContain(p.status);
+      expect(p.highlights.length).toBeGreaterThan(0);
     }
   });
 

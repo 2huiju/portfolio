@@ -1,5 +1,10 @@
 // 포트폴리오 콘텐츠 도메인 타입
 
+export interface SkillGroup {
+  label: string;
+  items: string[];
+}
+
 export interface Profile {
   name: string;
   role: string;
@@ -10,6 +15,15 @@ export interface Profile {
   phone: string;
   intro: string;
   stack: string[];
+  skillGroups: SkillGroup[];
+}
+
+/** 프로젝트 핵심 경험 (문제 → 해결 → 결과) */
+export interface Highlight {
+  title: string;
+  problem?: string;
+  solution: string;
+  result?: string;
 }
 
 export interface ExperienceItem {
@@ -36,12 +50,18 @@ export type ProjectStatus = "운영" | "종료";
 export interface Project {
   id: string;
   name: string;
-  description: string;
-  role: string;
-  stack: string[];
+  org: string;
+  tagline: string;
   period: string;
-  links: ProjectLink[];
+  role: string;
+  team: string;
   status: ProjectStatus;
+  stack: string[];
+  /** 아키텍처 한 줄 요약 */
+  summary: string;
+  highlights: Highlight[];
+  retrospective?: string;
+  links: ProjectLink[];
 }
 
 export type FileKind = "tsx" | "md" | "json" | "ts";

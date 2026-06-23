@@ -1,3 +1,4 @@
+import { profile } from "@/content/profile";
 import { MdDoc, H1, H2, Pp, Ul, Strong } from "./md";
 
 export function AboutFile() {
@@ -29,6 +30,22 @@ export function AboutFile() {
         <li>당장 동작하는 코드보다, 왜 이 구조인지 설명할 수 있는 코드를 쓴다.</li>
         <li>낯선 도메인도 빠르게 학습해 내 것으로 만든다.</li>
       </Ul>
+
+      <H2>기술 스택</H2>
+      <div className="space-y-2">
+        {profile.skillGroups.map((g) => (
+          <div key={g.label} className="flex flex-wrap items-baseline gap-2">
+            <span className="w-24 shrink-0 text-[13px] font-semibold text-ctp-text">{g.label}</span>
+            <span className="flex flex-wrap gap-1.5">
+              {g.items.map((s) => (
+                <span key={s} className="rounded-md bg-ctp-surface/70 px-2 py-0.5 text-[12px] text-ctp-subtext">
+                  {s}
+                </span>
+              ))}
+            </span>
+          </div>
+        ))}
+      </div>
     </MdDoc>
   );
 }
