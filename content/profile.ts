@@ -2,7 +2,7 @@ import type { Profile } from "@/types/content";
 
 export const profile: Profile = {
   name: "이희주",
-  role: "Frontend Developer",
+  role: "Frontend Engineer",
   years: 4,
   email: "heejoo45890@gmail.com",
   github: "https://github.com/2huiju",

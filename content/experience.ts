@@ -5,7 +5,7 @@ export const experience: ExperienceItem[] = [
     company: "(주)크레버스",
     team: "AI Dev Team",
     period: "2024.04 – 재직중",
-    role: "Frontend Developer",
+    role: "Frontend Engineer",
     summary: "AI 영어교육 플랫폼 HUMMINGo의 프론트엔드 개발 및 팀 개발 환경 설계.",
     bullets: [
       "Next.js App Router 기반 프로덕션 서비스 개발 (교사·학생 웹).",
@@ -16,7 +16,7 @@ export const experience: ExperienceItem[] = [
   {
     company: "크립티드",
     period: "2023.04 – 2024.03",
-    role: "Frontend Developer",
+    role: "Frontend Engineer",
     summary: "블록체인 서비스 KStadium 프론트엔드. 기존 Ionic 기반을 React로 재구성.",
     bullets: [
       "Ionic → React 재구성으로 구조·유지보수성 개선.",
@@ -27,7 +27,7 @@ export const experience: ExperienceItem[] = [
   {
     company: "바오밥파트너즈",
     period: "2022.09 – 2023.04",
-    role: "Frontend Developer",
+    role: "Frontend Engineer",
     summary: "Flutter 기반 모바일 앱 3 Seconds Club 개발 (첫 프로젝트).",
     bullets: [
       "Flutter로 크로스플랫폼 앱 화면·기능 구현.",

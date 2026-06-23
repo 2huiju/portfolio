@@ -14,15 +14,15 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "이희주 — Frontend Developer",
+    default: "이희주 — Frontend Engineer",
     template: "%s · 이희주",
   },
   description:
     "기능 구현을 넘어 팀의 개발 환경까지 설계하는 4년차 프론트엔드 개발자 이희주의 포트폴리오. macOS 데스크톱처럼 둘러보세요.",
-  keywords: ["이희주", "프론트엔드 개발자", "Frontend Developer", "React", "Next.js", "포트폴리오"],
+  keywords: ["이희주", "프론트엔드 엔지니어", "Frontend Engineer", "React", "Next.js", "포트폴리오"],
   authors: [{ name: "이희주" }],
   openGraph: {
-    title: "이희주 — Frontend Developer",
+    title: "이희주 — Frontend Engineer",
     description:
       "기능 구현을 넘어 팀의 개발 환경까지 설계하는 4년차 프론트엔드 개발자. macOS 데스크톱 컨셉 포트폴리오.",
     type: "website",
